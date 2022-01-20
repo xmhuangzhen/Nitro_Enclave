@@ -2,7 +2,7 @@
 
 #### getting started 
 
-[video](https://www.youtube.com/watch?v=t-XmYt2z5S8)  [website](https://docs.aws.amazon.com/enclaves/latest/user/getting-started.html)
+[video](https://www.youtube.com/watch?v=t-XmYt2z5S8)  [website](https://docs.aws.amazon.com/enclaves/latest/user/getting-started.html) [blog](https://aws.amazon.com/cn/blogs/china/aws-nitro-enclaves-isolated-ec2-environments-to-process-confidential-data/)
 
 ##### step 1 launch instances
 
@@ -18,61 +18,34 @@
 [website](https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-cli-install.html)
 
 ```
+sudo yum update -y
 sudo amazon-linux-extras install aws-nitro-enclaves-cli -y
-sudo yum install aws-nitro-enclaves-cli-devel -y
-sudo usermod -aG ne ec2-user
-sudo usermod -aG docker ec2-user
+sudo yum install aws-nitro-enclaves-cli-devel python3 git -y
+sudo pip3 install boto3 requests
+sudo usermod -aG ne $USER
+sudo usermod -aG docker $USER
 ```
 
-reconnect to the instance
+modify pre-allocated memory in `/etc/nitro_enclaves/allocator.yaml` to 3000MB
 
 ```
-sudo systemctl start nitro-enclaves-allocator.service 
-sudo systemctl enable nitro-enclaves-allocator.service
-sudo systemctl start docker 
-sudo systemctl enable docker
+sudo systemctl start nitro-enclaves-allocator.service && sudo systemctl enable nitro-enclaves-allocator.service
+sudo systemctl start docker && sudo systemctl enable docker
 ```
 
-##### step 3 build the enclave (version 0 -- official docker hello-world)
+reboot the instance
 
-```
-docker pull hello-world
-docker image ls
-nitro-cli build-enclave --docker-uri hello-world:latest --output-file test2.eif
-nitro-cli run-enclave --cpu-count 2 --memory 512 --eif-path test2.eif --debug-mode
-nitro-cli describe-enclaves
-```
-
-# FAILED!!!
-
-
-
-##### step 3 build the enclave (version 1 -- my cpp hello world)
-
-copy the test1 folder to the instance, run 
-
-```
-sudo yum install gcc-c++ -y
-g++ -o test1 test1.cpp
-```
-
-then get the output test1
+##### step 3 build the enclave (cpp hello world)
 
 ```
 docker build . -t test1
 docker image ls
-nitro-cli build-enclave --docker-uri test1:latest --output-file test1.eif
-nitro-cli run-enclave --cpu-count 2 --memory 512 --eif-path test1.eif --debug-mode
+nitro-cli build-enclave --docker-dir ./ --docker-uri test1:latest --output-file test1.eif
+nitro-cli run-enclave --cpu-count 2 --memory 3000 --eif-path test1.eif --debug-mode
 nitro-cli describe-enclaves
+nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
+nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 ```
-
-# FAILED!!!
-
-
-
-# 
-
-
 
 
 
