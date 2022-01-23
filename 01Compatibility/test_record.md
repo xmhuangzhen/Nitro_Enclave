@@ -35,7 +35,7 @@ sudo systemctl start docker && sudo systemctl enable docker
 
 reboot the instance
 
-##### step 3 build the enclave (cpp hello world)
+##### step 3 build the enclave (cpp hello world -- test1)
 
 ```
 docker build . -t test1
@@ -47,11 +47,41 @@ nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
 nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 ```
 
+##### step 3 build the enclave (c hello world -- test2)
+
+```
+docker build . -t test2
+docker image ls
+nitro-cli build-enclave --docker-dir ./ --docker-uri test1:latest --output-file test2.eif
+nitro-cli run-enclave --cpu-count 2 --memory 3000 --eif-path test2.eif --debug-mode
+nitro-cli describe-enclaves
+nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
+nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
+```
+
+##### step 3 build the enclave (java hello world -- test3)
+
+```
+docker build . -t test3
+docker image ls
+nitro-cli build-enclave --docker-dir ./ --docker-uri test3:latest --output-file test3.eif
+nitro-cli run-enclave --cpu-count 2 --memory 3000 --eif-path test3.eif --debug-mode
+nitro-cli describe-enclaves
+nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
+nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
+```
+
+
+
 
 
 ### test for hello world
 
-| #    | language |
-| ---- | -------- |
-| 1    | cpp      |
+| #     | language                                                     |
+| ----- | ------------------------------------------------------------ |
+| test1 | cpp                                                          |
+| test2 | c                                                            |
+| test3 | java<br />**attention! cannot use FROM amazonlinux ; RUN yum install java-devel -y** <br />just use FROM java:8 |
+|       |                                                              |
+|       |                                                              |
 
