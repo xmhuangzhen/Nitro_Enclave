@@ -26,7 +26,7 @@ sudo usermod -aG ne $USER
 sudo usermod -aG docker $USER
 ```
 
-modify pre-allocated memory in `/etc/nitro_enclaves/allocator.yaml` to 3000MB
+modify pre-allocated memory in `/etc/nitro_enclaves/allocator.yaml` to 4000MB
 
 ```
 sudo systemctl start nitro-enclaves-allocator.service && sudo systemctl enable nitro-enclaves-allocator.service
@@ -71,6 +71,26 @@ nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
 nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 ```
 
+##### step 3 build the enclave (python hello world -- test4)  need at least 3508MB
+
+```
+docker build . -t test4
+docker image ls
+nitro-cli build-enclave --docker-dir ./ --docker-uri test4:latest --output-file test4.eif
+nitro-cli run-enclave --cpu-count 2 --memory 4000 --eif-path test4.eif --debug-mode
+nitro-cli describe-enclaves
+nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
+nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
+```
+
+
+
+
+
+### 
+
+
+
 
 
 
@@ -82,6 +102,9 @@ nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 | test1 | cpp                                                          |
 | test2 | c                                                            |
 | test3 | java<br />**attention! cannot use FROM amazonlinux ; RUN yum install java-devel -y** <br />just use FROM java:8 |
-|       |                                                              |
-|       |                                                              |
+| test4 | Python                                                       |
+| test5 | JavaScript                                                   |
+| test6 | NodeJS                                                       |
+| test7 | Go                                                           |
+| test8 | PHP                                                          |
 
