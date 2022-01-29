@@ -83,11 +83,57 @@ nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
 nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 ```
 
+##### step 3 build the enclave (Nodejs hello world -- test5) --TODO
+
+[ref1](https://flaviocopes.com/docker-node-container-example/) [ref2](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/)
+
+```
+curl -sL https://rpm.nodesource.com/setup_14.x | sudo bash -
+sudo yum install nodejs –y
+npm init -y
+#npm install express
+docker build . -t test5
+docker image ls
+docker run -d -p 3000:3000 -it test5
+```
+
+then can use `curl http://localhost:3000 ` via ssh to check
+
+```
+nitro-cli build-enclave --docker-dir ./ --docker-uri test5:latest --output-file test5.eif
+nitro-cli run-enclave --cpu-count 2 --memory 4000 --eif-path test5.eif --debug-mode
+nitro-cli describe-enclaves
+nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
+nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
+```
+
+##### step 3 build the enclave (golang hello world -- test6)
+
+```
+docker build . -t test6
+docker image ls
+nitro-cli build-enclave --docker-dir ./ --docker-uri test6:latest --output-file test6.eif
+nitro-cli run-enclave --cpu-count 2 --memory 3000 --eif-path test6.eif --debug-mode
+nitro-cli describe-enclaves
+nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
+nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
+```
+
+##### step 3 build the enclave (php hello world -- test7)
+
+[ref3](http://richardn.ca/2019/01/15/running-a-php-site-with-docker/)
+
+```
+docker build . -t test7
+docker image ls
+nitro-cli build-enclave --docker-dir ./ --docker-uri test7:latest --output-file test7.eif
+nitro-cli run-enclave --cpu-count 2 --memory 3000 --eif-path test6.eif --debug-mode
+nitro-cli describe-enclaves
+nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
+nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
+```
 
 
-
-
-### 
 
 
 
@@ -103,8 +149,7 @@ nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 | test2 | c                                                            |
 | test3 | java<br />**attention! cannot use FROM amazonlinux ; RUN yum install java-devel -y** <br />just use FROM java:8 |
 | test4 | Python                                                       |
-| test5 | JavaScript                                                   |
-| test6 | NodeJS                                                       |
-| test7 | Go                                                           |
-| test8 | PHP                                                          |
+| test5 | JavaScript/NodeJS **TODO1**                                  |
+| test6 | Go                                                           |
+| test7 | PHP                                                          |
 
