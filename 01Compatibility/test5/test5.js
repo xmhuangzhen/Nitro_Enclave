@@ -1,15 +1,5 @@
-var http = require('http');
+while(true){
+	console.log("Hello World!");
+//	Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 5000);
+}
 
-var server = http.createServer(function(request, response) {
-
-            response.writeHead(200, {"Content-Type": "text/plain"});
-            response.end("Hello World!");
-
-});
-
-var port = 3000;
-server.listen(port);
-
-console.log("Server running at http://localhost:%d", port);
-
-console.log("Hello World!");

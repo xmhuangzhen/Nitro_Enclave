@@ -94,7 +94,7 @@ npm init -y
 #npm install express
 docker build . -t test5
 docker image ls
-docker run -d -p 3000:3000 -it test5
+#docker run -p 3000:3000 -it test5
 ```
 
 then can use `curl http://localhost:3000 ` via ssh to check
@@ -152,4 +152,6 @@ nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 | test5 | JavaScript/NodeJS **TODO1**                                  |
 | test6 | Go                                                           |
 | test7 | PHP                                                          |
+
+[vsock](https://nitro-enclaves.workshop.aws/en/my-first-enclave/secure-local-channel.html)
 
