@@ -16,4 +16,22 @@
 
 
 
+#### result
+
+##### 01 compatibility
+
+| test number | language | result |
+| ----------- | -------- | ------ |
+| test1       | cpp      | yes    |
+| test2       | c        | yes    |
+| test3       | java     | yes    |
+| test4       | python   | yes    |
+| test5       | NodeJs   | no     |
+| test6       | Go       | yes    |
+| test7       | PHP      | no     |
+
+
+
+
+
 [attestation platform](https://trust.multifactor.com/#/nitro)  [(code)](https://github.com/multifactor/trust-center)
