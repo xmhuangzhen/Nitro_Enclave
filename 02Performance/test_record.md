@@ -78,6 +78,7 @@ nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 | test2       | 21961ms / 21782ms | time 10,000,000,000 times addition (ans++) |
 
 
+### Que: why the code inside the enclave faster than outside?
 
 
 
