@@ -1,6 +1,6 @@
 # 02 performance
 
-##### step 1 launch instances
+#### step 1 launch instances
 
 1. sign in to the console -- ec2
 2. launch a new instance
@@ -9,7 +9,7 @@
 5. (configure instance) Advance Details Enclave -- Enable
 6. Then review and launch!
 
-##### step2 install nitro-cli(via ssh)
+#### step2 install nitro-cli(via ssh)
 
 [website](https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-cli-install.html)
 
@@ -31,7 +31,7 @@ sudo systemctl start docker && sudo systemctl enable docker
 
 reboot the instance
 
-##### step 3 build the enclave (cpp sha256 -- test1)
+#### step 3 build the enclave (cpp sha256 -- test1)
 
 [ref1](https://stackoverflow.com/questions/2262386/generate-sha256-with-openssl-and-c/10632725)
 
@@ -47,7 +47,7 @@ nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
 nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 ```
 
-##### step 3 build the enclave (cpp addition -- test2)
+#### step 3 build the enclave (cpp addition -- test2)
 
 ```
 sudo yum install openssl-devel gcc-c++ -y 
@@ -59,6 +59,21 @@ nitro-cli describe-enclaves
 nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
 nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 ```
+
+#### step 3 build the enclave (python3 addition -- test2)
+
+```
+docker build . -t test2
+docker image ls
+nitro-cli build-enclave --docker-dir ./ --docker-uri test3:latest --output-file test3.eif
+nitro-cli run-enclave --cpu-count 2 --memory 5000 --eif-path test3.eif --debug-mode
+nitro-cli describe-enclaves
+nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
+nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
+```
+
+
+
 
 
 
@@ -78,7 +93,34 @@ nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 | test2       | 21961ms / 21782ms | time 10,000,000,000 times addition (ans++) |
 
 
-### Que: why the code inside the enclave faster than outside?
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 
 
 
+
+#### raw data on test2
+
+|| outside | inside (gcc:latest) | inside(amazonlinux)|
+|--|--|--|--|
+|1|21778|21963|21765|
+|2|21778|21969|21765|
+|3|21779|21969|21765|
+|4|21777|21977|21764|
+|5|21778|21981|21766|
+|average|21778|21972|21765|
+
+#### raw data on test3
+
+|| outside | inside (python:3) | inside(amazonlinux)|
+|--|--|--|--|
+|1|8.423|7.293|8.430|
+|2|8.430|7.302|8.423|
+|3|8.427|7.310|8.425|
+|4|8.425|7.301|8.436|
+|5|8.429|7.309|8.433|
+|average|8.427|7.303|8.429|
