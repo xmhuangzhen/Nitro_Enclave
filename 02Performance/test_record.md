@@ -87,12 +87,14 @@ nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 
 ### test for hello world
 
-| test number | inside/outside    | implementation                             |
+| test number | inside(amazonlinux)/inside(specified)/outside    | implementation                             |
 | ----------- | ----------------- | ------------------------------------------ |
-| test1       | 388,837 / 374,154 | number of sha256 operations in 1000ms      |
-| test2       | 21961ms / 21782ms | time 10,000,000,000 times addition (ans++) |
+| test1       | ? /388,837 / 374,154 | number of sha256 operations in 1000ms      |
+| test2       | 21765ms / 21972ms / 21778ms | time 10,000,000,000 times addition (ans++) in c++ |
+| test3       | 8.429s / 7.303s / 8.427s | time 10,000,000,000 times addition (ans++) in python |
 
 
+
 <br/>
 <br/>
 <br/>
@@ -101,11 +103,21 @@ nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 <br/>
 
 
+#### raw data on test1
+
+| |outside(no docker) | outside(in docker gcc:latest) |outside(in docker amazonlinux)| inside (gcc:latest) | inside(amazonlinux)|
+|--|--|--|--|
+|1|367063|388307|375190|389620|375801|
+|2|373416|388214|375116|389542|375567|
+|3|373288|388258|375236|389531|375486|
+|4|373320|388459|375138|389418|375481|
+|5|373382|388441|374708|389648|375831|
+|average|372094|388334|375078|389552|375633|
 
 
 #### raw data on test2
 
-|| outside | inside (gcc:latest) | inside(amazonlinux)|
+|| outside(no docker) | inside (gcc:latest) | inside(amazonlinux)|
 |--|--|--|--|
 |1|21778|21963|21765|
 |2|21778|21969|21765|
@@ -116,7 +128,7 @@ nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 
 #### raw data on test3
 
-|| outside | inside (python:3) | inside(amazonlinux)|
+|| outside(no docker) | inside (python:3) | inside(amazonlinux)|
 |--|--|--|--|
 |1|8.423|7.293|8.430|
 |2|8.430|7.302|8.423|

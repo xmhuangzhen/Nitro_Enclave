@@ -32,11 +32,7 @@
 
 ##### 02 Performance
 
-| test number | inside/outside    | implementation                             |
-| ----------- | ----------------- | ------------------------------------------ |
-| test1       | 388,837 / 374,154 | number of sha256 operations in 1000ms      |
-| test2       | 21961ms / 21782ms | time 10,000,000,000 times addition (ans++) |
-
+result: no obvious difference inside & outside enclave
 
 
 
