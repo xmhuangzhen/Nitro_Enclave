@@ -9,6 +9,7 @@
 ### s3 startup
 
 [get started](https://docs.aws.amazon.com/AmazonS3/latest/userguide/GetStartedWithS3.html)
+[chinese tutorial](https://aws.amazon.com/cn/s3/)
 
 [s3 prerequisite](https://docs.aws.amazon.com/AmazonS3/latest/userguide/setting-up-s3.html)
 
@@ -26,7 +27,13 @@
 12. (Optional) Add metadata to the user by attaching tags as key-value pairs. For more information about using tags in IAM, see Tagging IAM entities in the IAM User Guide.
 13. sign in as an IAM user
 
-[]
+[s3 step1 create s3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-bucket.html)
 
 
+#### the status after uploading and downloading files
+
+|file type|status|
+|--|--|
+|.c / .cpp | to .txt |
+|.html/.java/.py/.js/.go/.php|origin|
 
