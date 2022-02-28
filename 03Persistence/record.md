@@ -37,3 +37,14 @@
 |.c / .cpp | to .txt |
 |.html/.java/.py/.js/.go/.php|origin|
 
+### Key Management Service(KMS)
+
+[kms link](https://aws.amazon.com/kms/)
+
+[kms overview](https://docs.aws.amazon.com/kms/latest/developerguide/overview.html)
+
+
+### combination
+[How Amazon Simple Storage Service (Amazon S3) uses AWS KMS](https://docs.aws.amazon.com/kms/latest/developerguide/services-s3.html)
+
+[connect S3 from an EC2 instance](https://www.youtube.com/watch?v=YYtvL459uWY)
