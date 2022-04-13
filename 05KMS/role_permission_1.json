@@ -1,0 +1,12 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "kms:*"
+            ],
+            "Resource": "arn:aws:kms:us-east-1:763880777493:key/*"
+        }
+    ]
+}

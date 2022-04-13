@@ -90,11 +90,22 @@ reboot the instance
 
 
 ```
+
+git clone https://github.com/xmhuangzhen/Nitro-Enclave-S3.git
+nitro-cli build-enclave --docker-dir ./ --docker-uri test2:latest --output-file test2.eif
+nitro-cli run-enclave --cpu-count 2 --memory 5000 --eif-path test2.eif --debug-mode
+
+
+
 docker build . -t test1
 docker image ls
 nitro-cli build-enclave --docker-dir ./ --docker-uri test1:latest --output-file test1.eif
 nitro-cli run-enclave --cpu-count 2 --memory 5000 --eif-path test1.eif --debug-mode
 nitro-cli describe-enclaves
+
+ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
+[ "$ENCLAVE_ID" != "null" ] && nitro-cli console --enclave-id ${ENCLAVE_ID}
+[ "$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id ${ENCLAVE_ID}
 nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
 nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 ```
