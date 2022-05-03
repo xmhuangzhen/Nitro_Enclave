@@ -34,7 +34,11 @@ Result: It can be built in the following steps: (1) create a "KMS" key in nitro 
 
 Description: Can you connect to the inside of a Nitro enclave via SSL/TLS? Can ACM be configured to ONLY allow SSL/TLS certificates to be accessed within Nitro enclaves?
 
-Result: AWS Certificate Manager (ACM) for Nitro Enclaves allows you to use public and private SSL/TLS certificates with your web applications and web servers running on Amazon EC2 instances with AWS Nitro Enclaves. SSL/TLS certificates are used to secure network communications and to establish the identity of websites over the internet, as well as resources on private networks.
+Result: AWS Certificate Manager (ACM) for Nitro Enclaves allows you to use public and private SSL/TLS certificates with your web applications and web servers running on Amazon EC2 instances with AWS Nitro Enclaves. SSL/TLS certificates are used to secure network communications and to establish the identity of websites over the internet, as well as resources on private networks. You can see the [file](/04ACM/record.md) for more details.
 
-**KMS**: Can KMS keys have key policies that make them only accessible within Nitro? Is there any way to later change or bypass the key policy to access a key outside of Nitro?
+###  Key Management Service(KMS)
+
+Description: Can KMS keys have key policies that make them only accessible within Nitro? Is there any way to later change or bypass the key policy to access a key outside of Nitro?
+
+Result: This part demonstrates how cryptographic attestation can be used to protect the privacy of sensitive data. Cryptographic attestation can be used to enhance the isolation of sensitive data processing workloads in a Nitro Enclave. You can see the [file](/05KMS/record.md) for more details.
 
