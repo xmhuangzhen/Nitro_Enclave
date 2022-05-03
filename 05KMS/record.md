@@ -214,6 +214,63 @@ $ sed -e "s|ACCOUNT_ID|${ACCOUNT_ID}|" -e "s|AWS_PRINCIPAL|${AWS_PRINCIPAL}|" ke
 
 4. Build, run, and connect to your enclave in debug mode
 
+(a) Start a new terminal session. (To start a new terminal session, on the menu bar, choose Window, New Terminal.)
+
+(b) Build your enclave application docker container by executing the following command in your Cloud9 terminal:
+```
+$ cd ~/environment/aws-nitro-enclaves-workshop/resources/code/my-first-enclave/cryptographic-attestation
+$ docker build ./ -t "data-processing"
+```
+(c) Build your enclave image file by executing the following command:
+```
+$ nitro-cli build-enclave --docker-uri "data-processing:latest" --output-file "data-processing.eif"
+```
+The output should look similar to:
+```
+ Enclave Image successfully created.
+ {
+ "Measurements": {
+     "HashAlgorithm": "Sha384 { ... }",
+     "PCR0": "287b24930a9f0fe14b01a71ecdc00d8be8fad90f9834d547158854b8279c74095c43f8d7f047714e98deb7903f20e3dd",
+     "PCR1": "aca6e62ffbf5f7deccac452d7f8cee1b94048faf62afc16c8ab68c9fed8c38010c73a669f9a36e596032f0b973d21895",
+     "PCR2": "0315f483ae1220b5e023d8c80ff1e135edcca277e70860c31f3003b36e3b2aaec5d043c9ce3a679e3bbd5b3b93b61d6f"
+ }
+ } 
+```
+(d) Launch your enclave application by executing the following command in your Cloud9 terminal:
+```
+$ nitro-cli run-enclave --debug-mode --cpu-count 2 --memory 3000 --eif-path "./data-processing.eif"
+```
+(e) Connect to your enclave console by issuing the following command:
+```
+$ ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
+$ [ "$ENCLAVE_ID" != "null" ] && nitro-cli console --enclave-id ${ENCLAVE_ID}
+```
+This terminal tab will now display the debug-mode console output of the running enclave.
+
+
+5. Interacting with your enclave application
+
+(a) Return to your previous Cloud9 terminal tab and install dependencies by issuing the following command:
+```
+$ cd ~/environment/aws-nitro-enclaves-workshop/resources/code/my-first-enclave/cryptographic-attestation
+$ pip3 install --user -r "requirements.txt"
+```
+(b) Select a simulated sensitive value from `values.txt` at random and encrypt it using your KMS CMK by issuing the following command:
+```
+$ python3 client.py --prepare --values "values.txt"  --alias "my-enclave-key"
+```
+If successful, this command will print the encrypted ciphertext for the selected value and its last four digits to your screen. It will also create a new file, `string.encrypted`, containing the cyphertext.
+
+
+(c) Send this ciphertext to your enclave by issuing the following command:
+```
+$ python3 client.py --submit --ciphertext "string.encrypted"  --alias "my-enclave-key"
+```
+In your host instance terminal, you’ll see that the last 4 digits of the sensitive value are returned to the parent.
+
+
+
 
 
 
