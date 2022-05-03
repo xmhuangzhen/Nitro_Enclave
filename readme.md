@@ -16,6 +16,7 @@ Result:
 - [C++](/01Compatibility/test1/), [C](/01Compatibility/test2/), [Java](/01Compatibility/test3/), [Python](/01Compatibility/test4/), [Golang](/01Compatibility/test6/) can run inside a Nitro Enclave with repeatedly printing "Hello World!".
 - [Nodejs](/01Compatibility/test5/) and [PHP](/01Compatibility/test7/) cannot work well currently.
 
+You can see the [record](/01Compatibility/test_record.md) for more details.
 
 ### Performance
 
@@ -27,9 +28,13 @@ Result: There is no significant difference in the time spent running a docker in
 
 Description: Nitro does not have a built-in way to persist data, but can a secure persistence layer easily be created through some combination of KMS and S3?
 
-Result: 
+Result: It can be built in the following steps: (1) create a "KMS" key in nitro enclave --> (2) encrypt the objects in the enclave --> (3) transmit the objects to the parent instance --> (4) parent instance upload it to s3. You can see the [file](/03Persistence/record.md) for more details.
 
-**ACM**: Can you connect to the inside of a Nitro enclave via SSL/TLS? Can ACM be configured to ONLY allow SSL/TLS certificates to be accessed within Nitro enclaves?
+### AWS Certificate Manager(ACM)
+
+Description: Can you connect to the inside of a Nitro enclave via SSL/TLS? Can ACM be configured to ONLY allow SSL/TLS certificates to be accessed within Nitro enclaves?
+
+Result: AWS Certificate Manager (ACM) for Nitro Enclaves allows you to use public and private SSL/TLS certificates with your web applications and web servers running on Amazon EC2 instances with AWS Nitro Enclaves. SSL/TLS certificates are used to secure network communications and to establish the identity of websites over the internet, as well as resources on private networks.
 
 **KMS**: Can KMS keys have key policies that make them only accessible within Nitro? Is there any way to later change or bypass the key policy to access a key outside of Nitro?
 
