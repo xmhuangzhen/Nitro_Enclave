@@ -226,6 +226,54 @@ And add the following line.
 ssl_protocols TLSv1.2;
 ```
 
+- Add the following as a new block below the second block.
+```
+# Set this to the stanza path configured in /etc/nitro_enclaves/acm.yaml
+include "/etc/pki/nginx/nginx-acm.conf";
+```
+The completed section should appear as follows.
+```
+# Settings for a TLS enabled server.
+#
+    server {
+        listen       443 ssl http2;
+        listen       [::]:443 ssl http2;
+        server_name  example.com;
+        root         /usr/share/nginx/html;
+        
+        ssl_protocols TLSv1.2;
+        ssl_session_cache shared:SSL:1m;
+        ssl_session_timeout  10m;
+        ssl_prefer_server_ciphers on;
+        
+        # Set this to the stanza path configured in /etc/nitro_enclaves/acm.yaml
+        include "/etc/pki/nginx/nginx-acm.conf";
+        
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+        
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+    }
+```
+
+6. Start the ACM for Nitro Enclaves service and ensure that it starts automatically at instance boot.
+```
+$ sudo systemctl start nitro-enclaves-acm.service
+$ sudo systemctl enable nitro-enclaves-acm
+```
+
+7. Test that the ACM for Nitro Enclaves is working as expected.
+
+If you used a public certificate, use the following command.
+```
+$ curl https://host_name_or_IP
+```
+
 
 #### step3 associate
 ```
