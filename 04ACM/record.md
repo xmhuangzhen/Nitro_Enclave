@@ -88,10 +88,144 @@ Example output
 After running the command, make a note of `CertificateS3BucketName` and `EncryptionKmsKeyId`, as you'll need them for the next step.
 
 
+#### Step 5 Grant the role permission to access the certificate and encryption key
+You must now grant the IAM role (acm-role) permission to do the following:
+
+- Retrieve the ACM certificate from the Amazon S3 bucket returned in the previous step
+
+- Perform kms:Decrypt using the AWS KMS key returned in the previous step
+
+- Retrieve information about itself, including its path, GUID, and ARN.
+
+Create a JSON file named acm-role-policies, add the following policy statement, and specify the values of CertificateS3BucketName and EncryptionKmsKeyId from the previous step.
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+        "Effect": "Allow",
+        "Action": [
+        "s3:GetObject"
+        ],
+        "Resource": ["arn:aws:s3:::CertificateS3BucketName/*"]
+    },
+    {
+        "Sid": "VisualEditor0",
+        "Effect": "Allow",
+        "Action": [
+            "kms:Decrypt"
+        ],
+        "Resource": "arn:aws:kms:region:*:key/EncryptionKmsKeyId"
+    },
+    {
+            "Effect": "Allow",
+            "Action": "iam:GetRole",
+            "Resource": "arn:aws:iam::123456789012:role/acm-role"
+    }
+  ]
+}
+```
+Use the put-role-policy command to add the additional policies to the acm-role role, and specify the path to the JSON policy file.
+```
+$ aws iam put-role-policy --role-name acm-role --policy-name acm-role-policy --policy-document file://acm-role-policies.json
+```
+
+#### Step 6 Attach the role to the instance
+You must attach the IAM role to the instance to give it permission to use the certificate.
+
+Create a new instance profile named acm-instance-profile using the `create-instance-profile` command.
+```
+$ aws iam create-instance-profile --instance-profile-name acm-instance-profile
+```
+Example output
+```
+{
+    "InstanceProfile": {
+    "Path": "/",
+     "InstanceProfileName": "acm-instance-profile",
+    "InstanceProfileId": "ABCDUS6G56GWDIEXAMPLE",
+    "Arn": "arn:aws:iam::123456789012:instance-profile/acm-instance-profile",
+    "CreateDate": "2020-10-14T03:38:08+00:00",
+    "Roles": []
+    }
+}
+```
+Add the acm-role that you created earlier to the acm-instance-profile that you just created. Use the `add-role-to-instance-profile` command.
+```
+$ aws iam add-role-to-instance-profile --instance-profile-name acm-instance-profile --role-name acm-role
+```
+Associate the instance profile with the instance that you launched previously. Use the `associate-iam-instance-profile` command and specify the instance profile to attach and the instance to attach it to.
+```
+$ aws ec2 --region region associate-iam-instance-profile --instance-id instance_id --iam-instance-profile Name=acm-instance-profile
+```
+Example output
+```
+{
+    "IamInstanceProfileAssociation": 
+    {
+        "AssociationId": "iip-assoc-0a411083b4EXAMPLE",
+        "InstanceId": "i-1234567890abcdef0",
+        "IamInstanceProfile": 
+        {
+            "Arn": "arn:aws:iam::123456789012:instance-profile/acm-instance-profile",
+            "Id": "ABCDUS6G56GWDIEXAMPLE"
+        },
+        "State": "associating"
+    }
+}
+```
 
 
+#### Step 7 Configure NGINX to use ACM for Nitro Enclaves
+Configure the NGINX web server to use the ACM certificate.
 
-& grant role permissions (only need once)
+To configure NGINX
+
+1. SSH into the instance that you launched previously.
+
+2. Rename the sample ACM for Nitro Enclaves configuration file from `/etc/nitro_enclaves/acm.example.yaml` to `/etc/nitro_enclaves/acm.yaml`.
+```
+$ sudo mv /etc/nitro_enclaves/acm.example.yaml /etc/nitro_enclaves/acm.yaml
+```
+3. Using your preferred text editor, open `/etc/nitro_enclaves/acm.yaml`. In the Acm section, for certificate_arn, specify the ARN of the certificate. Save and close the file.
+
+4. Configure NGINX to use the pkcs11 SSL engine by setting the top-level ssl_engine directive. Using your preferred text editor, open `/etc/nginx/nginx.conf`. Add the following line below `pid /run/nginx.pid;`.
+```
+ssl_engine pkcs11;
+```
+
+Example
+```
+# For more information on configuration, see:
+#   * Official English Documentation: http://nginx.org/en/docs/
+
+user nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log;
+pid /run/nginx.pid;
+
+ssl_engine pkcs11;
+```
+5. Enable the TLS server and configure the server to use your certificate.
+
+In `/etc/nginx/nginx.conf`, scroll to the bottom of the file and do the following:
+
+- Uncomment all of the lines below Settings for a TLS enabled server.
+
+- In the first block, for server_name, specify the host name, or the common name (CN), that you specified when you created the certificate.
+
+- In the second block, remove the following lines.
+```
+ssl_certificate "/etc/pki/nginx/server.crt";
+ssl_certificate_key "/etc/pki/nginx/private/server.key";
+ssl_ciphers PROFILE=SYSTEM;
+```
+
+And add the following line.
+```
+ssl_protocols TLSv1.2;
+```
+
 
 #### step3 associate
 ```
