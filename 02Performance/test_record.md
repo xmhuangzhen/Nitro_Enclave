@@ -1,37 +1,8 @@
 # 02 performance
 
-#### step 1 launch instances
+Before building the enclave, we recommend you to follow the [prerequisite](/prerequisite.md) first. Meanwhile, the comparison between inside and outside the enclave are both running with docker.
 
-1. sign in to the console -- ec2
-2. launch a new instance
-3. (choose AMI) choose Amazon Linux 2 AMI Kernel 5.10 ami-001089eb624938d9f
-4. (choose an Instance Type) choose m5.xlarge
-5. (configure instance) Advance Details Enclave -- Enable
-6. Then review and launch!
-
-#### step2 install nitro-cli(via ssh)
-
-[website](https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-cli-install.html)
-
-```
-sudo yum update -y
-sudo amazon-linux-extras install aws-nitro-enclaves-cli -y
-sudo yum install aws-nitro-enclaves-cli-devel python3 git -y
-sudo pip3 install boto3 requests
-sudo usermod -aG ne $USER
-sudo usermod -aG docker $USER
-```
-
-modify pre-allocated memory in `/etc/nitro_enclaves/allocator.yaml` to 4000MB
-
-```
-sudo systemctl start nitro-enclaves-allocator.service && sudo systemctl enable nitro-enclaves-allocator.service
-sudo systemctl start docker && sudo systemctl enable docker
-```
-
-reboot the instance
-
-#### step 3 build the enclave (cpp sha256 -- test1)
+### build the enclave (cpp sha256 -- test1)
 
 [ref1](https://stackoverflow.com/questions/2262386/generate-sha256-with-openssl-and-c/10632725)
 
@@ -42,12 +13,12 @@ docker build . -t test1
 docker image ls
 nitro-cli build-enclave --docker-dir ./ --docker-uri test1:latest --output-file test1.eif
 nitro-cli run-enclave --cpu-count 2 --memory 5000 --eif-path test1.eif --debug-mode
-nitro-cli describe-enclaves
-nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
-nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
+ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
+[ "$ENCLAVE_ID" != "null" ] && nitro-cli console --enclave-id ${ENCLAVE_ID}
+[ "$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id ${ENCLAVE_ID}
 ```
 
-#### step 3 build the enclave (cpp addition -- test2)
+### build the enclave (cpp addition -- test2)
 
 ```
 sudo yum install openssl-devel gcc-c++ -y 
@@ -55,55 +26,35 @@ docker build . -t test2
 docker image ls
 nitro-cli build-enclave --docker-dir ./ --docker-uri test2:latest --output-file test2.eif
 nitro-cli run-enclave --cpu-count 2 --memory 5000 --eif-path test2.eif --debug-mode
-nitro-cli describe-enclaves
-nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
-nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
+ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
+[ "$ENCLAVE_ID" != "null" ] && nitro-cli console --enclave-id ${ENCLAVE_ID}
+[ "$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id ${ENCLAVE_ID}
 ```
 
-#### step 3 build the enclave (python3 addition -- test2)
+#### build the enclave (python3 addition -- test2)
 
 ```
 docker build . -t test2
 docker image ls
 nitro-cli build-enclave --docker-dir ./ --docker-uri test3:latest --output-file test3.eif
 nitro-cli run-enclave --cpu-count 2 --memory 5000 --eif-path test3.eif --debug-mode
-nitro-cli describe-enclaves
-nitro-cli console --enclave-id xxxxxxxxxxxxxxxxxx
-nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
+ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
+[ "$ENCLAVE_ID" != "null" ] && nitro-cli console --enclave-id ${ENCLAVE_ID}
+[ "$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id ${ENCLAVE_ID}
 ```
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ### test for hello world
 
-| test number | inside(amazonlinux)/inside(specified)/outside    | implementation                             |
-| ----------- | ----------------- | ------------------------------------------ |
-| test1       | ? /388,837 / 374,154 | number of sha256 operations in 1000ms      |
-| test2       | 21765ms / 21972ms / 21778ms | time 10,000,000,000 times addition (ans++) in c++ |
-| test3       | 8.429s / 7.303s / 8.427s | time 10,000,000,000 times addition (ans++) in python |
+| test number | inside | outside    | operation                             |
+| ----------- | --------|--------- | ------------------------------------------ |
+| test1       |  |  | number of sha256 operations in 1000ms      |
+| test2       |  |  | time 10,000,000,000 times addition (ans++) in c++ |
+| test3       |  |  | time 10,000,000,000 times addition (ans++) in python |
 
 
 
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-
-
-#### raw data on test1
+#### raw data on test1 -- v1
 
 | |outside(no docker) | outside(in docker gcc:latest) |outside(in docker amazonlinux)| inside (gcc:latest) | inside(amazonlinux)|
 |--|--|--|--|
@@ -115,7 +66,7 @@ nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 |average|372094|388334|375078|389552|375633|
 
 
-#### raw data on test2
+#### raw data on test2 --v1
 
 || outside(no docker) | inside (gcc:latest) | inside(amazonlinux)|
 |--|--|--|--|
@@ -126,7 +77,7 @@ nitro-cli terminate-enclave --enclave-id xxxxxxxxxx
 |5|21778|21981|21766|
 |average|21778|21972|21765|
 
-#### raw data on test3
+#### raw data on test3 --v1
 
 || outside(no docker) | inside (python:3) | inside(amazonlinux)|
 |--|--|--|--|

@@ -2,7 +2,7 @@
 
 Before building the enclave, we recommend you to follow the [prerequisite](/prerequisite.md) first.
 
-### step 3 build the enclave (cpp hello world -- test1)
+### build the enclave (cpp hello world -- test1)
 
 ```
 docker build . -t test1
@@ -14,7 +14,7 @@ ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
 [ "$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id ${ENCLAVE_ID}
 ```
 
-##### step 3 build the enclave (c hello world -- test2)
+### build the enclave (c hello world -- test2)
 
 ```
 docker build . -t test2
@@ -26,7 +26,7 @@ ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
 [ "$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id ${ENCLAVE_ID}
 ```
 
-##### step 3 build the enclave (java hello world -- test3)
+### build the enclave (java hello world -- test3)
 
 ```
 docker build . -t test3
@@ -38,7 +38,7 @@ ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
 [ "$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id ${ENCLAVE_ID}
 ```
 
-##### step 3 build the enclave (python hello world -- test4)  need at least 3508MB
+### build the enclave (python hello world -- test4)  need at least 3508MB
 
 ```
 docker build . -t test4
@@ -50,7 +50,7 @@ ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
 [ "$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id ${ENCLAVE_ID}
 ```
 
-##### step 3 build the enclave (Nodejs hello world -- test5) -- failed
+### build the enclave (Nodejs hello world -- test5) -- failed
 
 [ref1](https://flaviocopes.com/docker-node-container-example/) [ref2](https://nodejs.org/en/docs/guides/nodejs-docker-webapp/)
 
@@ -65,7 +65,7 @@ ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
 [ "$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id ${ENCLAVE_ID}
 ```
 
-##### step 3 build the enclave (golang hello world -- test6)
+### build the enclave (golang hello world -- test6)
 
 ```
 docker build . -t test6
@@ -77,7 +77,7 @@ ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
 [ "$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id ${ENCLAVE_ID}
 ```
 
-##### step 3 build the enclave (php hello world -- test7) -- failed
+### build the enclave (php hello world -- test7) -- failed
 
 [ref3](http://richardn.ca/2019/01/15/running-a-php-site-with-docker/)
 
