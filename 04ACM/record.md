@@ -35,6 +35,8 @@ This tutorial is based on the official[user guide](https://docs.aws.amazon.com/z
 aws ec2 run-instances --image-id ami-00d96e5ee00daa484 --count 1 --instance-type m5.xlarge --key-name your_key_name --enclave-options 'Enabled=true'
 ```
 
+Notice the inbound rules of the parent instance(ssh port 22 & tcp port 443 need to be open)
+
 #### step3 prepare IAM role 
 
 To grant the instance permission to use the ACM certificate, you must create an IAM role with the required permissions. The IAM role is later attached to the instance and the ACM certificate.
@@ -281,7 +283,3 @@ $ curl https://host_name_or_IP
 [register a new domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-register.html)
 
 [request a public certificate](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html)
-
-
-#### misc
-- notice the inbound rules of the parent instance(ssh port 22 & tcp port 443 need to be open)
