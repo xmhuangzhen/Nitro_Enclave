@@ -2,8 +2,6 @@
 
 The goal of this project is to test different aspects of AWS Nitro Enclave, including compability, performance, persistence, AWS Certificate Manager(ACM) and Key Management Service(KMS).
 
-</br>
-
 
 ### Get Started
 
@@ -12,7 +10,9 @@ The goal of this project is to test different aspects of AWS Nitro Enclave, incl
 
 Description: Run code in a variety of languages inside a Nitro enclave to test compatibility
 
-Result: [C++](/01Compatibility/test1/), [C](/01Compatibility/test2/), [Java](/01Compatibility/test3/), [Python](/01Compatibility/test4/), [Golang](/01Compatibility/test6/) can run inside a Nitro Enclave.
+Result: 
+- [C++](/01Compatibility/test1/), [C](/01Compatibility/test2/), [Java](/01Compatibility/test3/), [Python](/01Compatibility/test4/), [Golang](/01Compatibility/test6/) can run inside a Nitro Enclave with repeatedly printing "Hello World!".
+- [Nodejs](/01Compatibility/test5/) and [PHP](/01Compatibility/test7/) cannot work well currently.
 
 
 
