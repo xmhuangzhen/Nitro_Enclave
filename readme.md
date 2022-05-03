@@ -4,13 +4,30 @@ The goal of this project is to test different aspects of AWS Nitro Enclave, incl
 
 </br>
 
-</br>
+
+### Get Started
+
 
 ### Compatibility
 
-Description: Try running code in a variety of languages inside a Nitro enclave to test compatibility
+Description: Run code in a variety of languages inside a Nitro enclave to test compatibility
 
-**Performance**: What are the performance overheads Nitro incurs with respect to memory, computation, networking? What degree of parallelism is supported?
+Result: [C++](/01Compatibility/test1/), [C](/01Compatibility/test2/), Java, Python, Golang can run in
+| test number | language | result |
+| ----------- | -------- | ------ |
+| test1       | cpp      | yes    |
+| test2       | c        | yes    |
+| test3       | java     | yes    |
+| test4       | python   | yes    |
+| test5       | NodeJs   | no     |
+| test6       | Go       | yes    |
+| test7       | PHP      | no     |
+
+
+
+### Performance
+
+What are the performance overheads Nitro incurs with respect to memory, computation, networking? What degree of parallelism is supported?
 
 **Persistence**: Nitro does not have a built-in way to persist data, but can a secure persistence layer easily be created through some combination of KMS and S3?
 
@@ -26,15 +43,6 @@ Description: Try running code in a variety of languages inside a Nitro enclave t
 
 ##### 01 compatibility
 
-| test number | language | result |
-| ----------- | -------- | ------ |
-| test1       | cpp      | yes    |
-| test2       | c        | yes    |
-| test3       | java     | yes    |
-| test4       | python   | yes    |
-| test5       | NodeJs   | no     |
-| test6       | Go       | yes    |
-| test7       | PHP      | no     |
 
 ##### 02 Performance
 
