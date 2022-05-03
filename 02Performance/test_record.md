@@ -31,10 +31,10 @@ ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
 [ "$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id ${ENCLAVE_ID}
 ```
 
-#### build the enclave (python3 addition -- test2)
+#### build the enclave (python3 addition -- test3)
 
 ```
-docker build . -t test2
+docker build . -t test3
 docker image ls
 nitro-cli build-enclave --docker-dir ./ --docker-uri test3:latest --output-file test3.eif
 nitro-cli run-enclave --cpu-count 2 --memory 5000 --eif-path test3.eif --debug-mode
@@ -46,11 +46,11 @@ ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
 
 ### test for hello world
 
-| test number | inside | outside    | operation                             |
+| test number | outside | inside    | operation                             |
 | ----------- | --------|--------- | ------------------------------------------ |
-| test1       |  |  | number of sha256 operations in 1000ms      |
-| test2       |  |  | time 10,000,000,000 times addition (ans++) in c++ |
-| test3       |  |  | time 10,000,000,000 times addition (ans++) in python |
+| test1       | 394090 | 395442 | number of sha256 operations in 1000ms in c++     |
+| test2       | 22005ms | 21997ms | time 10,000,000,000 times addition (ans++) in c++ |
+| test3       | 7.1094s | 6.9919s | time 100,000,000 times addition (ans++) in python |
 
 
 
@@ -66,6 +66,16 @@ ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
 |average|372094|388334|375078|389552|375633|
 
 
+#### raw data on test1 -- v2
+|#|outside|inside|
+|-|-------|------|
+|1|394533|395507|
+|2|392577|395404|
+|3|394577|395529|
+|4|394377|395507|
+|5|394384|395262|
+|average|394090|395442|
+
 #### raw data on test2 --v1
 
 || outside(no docker) | inside (gcc:latest) | inside(amazonlinux)|
@@ -77,6 +87,17 @@ ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
 |5|21778|21981|21766|
 |average|21778|21972|21765|
 
+#### raw data on test2 -- v2
+|#|outside|inside|
+|-|-------|------|
+|1|22009|22000|
+|2|22007|21991|
+|3|22006|21993|
+|4|22003|22008|
+|5|22002|21994|
+|average|22005|21997|
+
+
 #### raw data on test3 --v1
 
 || outside(no docker) | inside (python:3) | inside(amazonlinux)|
@@ -87,3 +108,13 @@ ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
 |4|8.425|7.301|8.436|
 |5|8.429|7.309|8.433|
 |average|8.427|7.303|8.429|
+
+#### raw data on test3 -- v2
+|#|outside|inside|
+|-|-------|------|
+|1|7.1084|6.9894|
+|2|7.1099|6.9926|
+|3|7.1097|6.9922|
+|4|7.1095|6.9923|
+|5|7.1094|6.9931|
+|average|7.1094|6.9919|

@@ -21,7 +21,7 @@ Result:
 
 Description: What are the performance overheads in Nitro Enclave?
 
-Result: There is no significant difference in the time spent running a docker inside and outside the enclave. See the [record](/02Performance/test_record.md) for more details.
+Result: There is no significant difference in the time spent running a docker inside and outside the enclave. In addition, the docker runs inside the enclave is a little bit faster than outside. You can see the [record](/02Performance/test_record.md) for more details.
 
 **Persistence**: Nitro does not have a built-in way to persist data, but can a secure persistence layer easily be created through some combination of KMS and S3?
 
