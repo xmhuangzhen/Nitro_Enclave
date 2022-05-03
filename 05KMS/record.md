@@ -183,7 +183,7 @@ $ export ACCOUNT_ID=`aws sts get-caller-identity | jq -r ".Account"`
 (b) Customize a pre-prepared key policy template with these values by executing the following command in your Cloud9 terminal.
 
 ```
-$ cd ~/environment/aws-nitro-enclaves-workshop/resources/code/my-first-enclave/cryptographic-attestation
+$ cd ~/environment/Nitro_Enclave/05KMS/cryptographic-attestation
 $ sed -e "s|ACCOUNT_ID|${ACCOUNT_ID}|" -e "s|AWS_PRINCIPAL|${AWS_PRINCIPAL}|" key_policy_template.json > key_policy.json
 ```
 
@@ -218,7 +218,7 @@ $ sed -e "s|ACCOUNT_ID|${ACCOUNT_ID}|" -e "s|AWS_PRINCIPAL|${AWS_PRINCIPAL}|" ke
 
 (b) Build your enclave application docker container by executing the following command in your Cloud9 terminal:
 ```
-$ cd ~/environment/aws-nitro-enclaves-workshop/resources/code/my-first-enclave/cryptographic-attestation
+$ cd ~/environment/Nitro_Enclave/05KMS/cryptographic-attestation
 $ docker build ./ -t "data-processing"
 ```
 (c) Build your enclave image file by executing the following command:
@@ -253,7 +253,7 @@ This terminal tab will now display the debug-mode console output of the running 
 
 (a) Return to your previous Cloud9 terminal tab and install dependencies by issuing the following command:
 ```
-$ cd ~/environment/aws-nitro-enclaves-workshop/resources/code/my-first-enclave/cryptographic-attestation
+$ cd ~/environment/Nitro_Enclave/05KMS/cryptographic-attestation
 $ pip3 install --user -r "requirements.txt"
 ```
 (b) Select a simulated sensitive value from `values.txt` at random and encrypt it using your KMS CMK by issuing the following command:
