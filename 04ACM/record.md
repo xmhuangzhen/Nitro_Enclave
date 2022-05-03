@@ -1,7 +1,5 @@
 # 04 ACM
 
-This tutorial is based on the official[user guide](https://docs.aws.amazon.com/zh_cn/enclaves/latest/user/nitro-enclave-refapp.html).
-
 #### step0 Register a new domain using Route53 
 
 1. Sign in to the AWS Management Console and open the Route 53 console at https://console.aws.amazon.com/route53/.
@@ -283,3 +281,5 @@ $ curl https://host_name_or_IP
 [register a new domain](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-register.html)
 
 [request a public certificate](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html)
+
+[user guide](https://docs.aws.amazon.com/zh_cn/enclaves/latest/user/nitro-enclave-refapp.html).
