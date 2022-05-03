@@ -12,16 +12,7 @@ The goal of this project is to test different aspects of AWS Nitro Enclave, incl
 
 Description: Run code in a variety of languages inside a Nitro enclave to test compatibility
 
-Result: [C++](/01Compatibility/test1/), [C](/01Compatibility/test2/), Java, Python, Golang can run in
-| test number | language | result |
-| ----------- | -------- | ------ |
-| test1       | cpp      | yes    |
-| test2       | c        | yes    |
-| test3       | java     | yes    |
-| test4       | python   | yes    |
-| test5       | NodeJs   | no     |
-| test6       | Go       | yes    |
-| test7       | PHP      | no     |
+Result: [C++](/01Compatibility/test1/), [C](/01Compatibility/test2/), [Java](/01Compatibility/test3/), [Python](/01Compatibility/test4/), [Golang](/01Compatibility/test6/) can run inside a Nitro Enclave.
 
 
 
