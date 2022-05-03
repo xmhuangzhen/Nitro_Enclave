@@ -275,16 +275,6 @@ $ curl https://host_name_or_IP
 ```
 
 
-#### step3 associate
-```
-aws ec2 --region us-east-1 associate-iam-instance-profile --instance-id instance_id --iam-instance-profile Name=acm-instance-profile
-```
-
-#### step4 config in the parent instance
-
-#### step5 test
-curl https://domain_name
-
 
 #### reference 
 
