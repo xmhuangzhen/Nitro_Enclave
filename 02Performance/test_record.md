@@ -57,7 +57,7 @@ ENCLAVE_ID=$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID")
 #### raw data on test1 -- v1
 
 | |outside(no docker) | outside(in docker gcc:latest) |outside(in docker amazonlinux)| inside (gcc:latest) | inside(amazonlinux)|
-|--|--|--|--|
+|--|--|--|--|--|--|
 |1|367063|388307|375190|389620|375801|
 |2|373416|388214|375116|389542|375567|
 |3|373288|388258|375236|389531|375486|
